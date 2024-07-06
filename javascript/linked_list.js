@@ -1,6 +1,27 @@
 class LinkedList {
   constructor(head = null) {
     this.head = head;
+    this.tail = null;
+    this.size = 0;
+
+    this.setSize();
+    this.setTail();
+  }
+
+  setSize() {
+    let size = 0;
+    this.iterate(() => {
+      size++;
+    })
+    this.size = size;
+  }
+
+  setTail() {
+    let node = null;
+    this.iterate(currNode => {
+      node = currNode;
+    })
+    this.tail = node;
   }
 
   iterate(callback) {
@@ -47,6 +68,8 @@ class LinkedList {
   addFirst(node) {
     node.next = this.head;
     this.head = node;
+    this.setSize();
+    this.setTail();
   }
 
   // add node to end of list, no nodes should be removed
@@ -54,6 +77,7 @@ class LinkedList {
   addLast(node) {
     if (this.head === null) {
       this.head = node;
+      this.setTail();
       return;
     }
 
@@ -63,6 +87,8 @@ class LinkedList {
         return true;
       }
     });
+    this.setSize();
+    this.setTail();
   }
 
   // remove the first Node in the list and update head
@@ -73,7 +99,8 @@ class LinkedList {
     if (this.head !== null) {
       this.head = this.head.next;
     }
-
+    this.setSize();
+    this.setTail();
     return oldHead;
   }
 
@@ -93,7 +120,8 @@ class LinkedList {
         return true;
       }
     });
-
+    this.setSize();
+    this.setTail();
     return oldTail;
   }
 
@@ -113,7 +141,8 @@ class LinkedList {
         return true;
       }
     });
-
+    this.setSize();
+    this.setTail();
     return node;
   }
 
@@ -134,6 +163,8 @@ class LinkedList {
         return true;
       }
     });
+    this.setSize();
+    this.setTail();
   }
 
   // remove the node at the given index, and return it
@@ -152,12 +183,15 @@ class LinkedList {
         return true;
       }
     }); 
-
+    this.setSize();
+    this.setTail();
     return oldNode;
   }
 
   clear() {
     this.head = null;
+    this.size = 0;
+    this.setTail();
   }
 }
 
@@ -169,11 +203,15 @@ class Node {
 }
 
 if (require.main === module) {
-  let head = new Node('one', new Node('two', new Node('three', new Node('four'))));
-  let list = new LinkedList(head);
+  // let head = new Node('one', new Node('two', new Node('three', new Node('four'))));
+  // let list = new LinkedList(head);
   let emptyList = new LinkedList();
-  let oneItemList = new LinkedList(new Node('just one'));
+  // let oneItemList = new LinkedList(new Node('just one'));
 
+  console.log(emptyList);
+  emptyList.addLast(new Node('testing'))
+  // console.log(emptyList.tail.value);
+  console.log(emptyList)
 }
 
 module.exports = {
